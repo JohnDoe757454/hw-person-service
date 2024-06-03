@@ -13,17 +13,14 @@ import telran.java52.person.model.Person;
 
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-	// @Query(value = "", nativeQuery = true)
-	@Query("select p from Person p where p.address.city=:cityName")
+
 	Stream<Person> findByAddressCityIgnoreCase(@Param("cityName")String city);
 
 	Stream<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
 
-	@Query("select p from Person p where p.name=?1")
-	//@Query("select p from Citizen p where p.name=?1")
+
 	Stream<Person> findByNameIgnoreCase(String name);
 	
-	//@Query("select new telran.java52.person.dto.CityPopulationDto (p.address.city,count(p)) from Citizen p group by p.address.city order by count(p) desc")
 	@Query("select new telran.java52.person.dto.CityPopulationDto(p.address.city, count(p)) from Person p group by p.address.city order by count(p) desc")
 	List<CityPopulationDto> getCityPopulation();
 
