@@ -61,7 +61,7 @@ public class PersonController {
 	@GetMapping("/population/city")
 	public Iterable<CityPopulationDto> getCityPopulation() {
 
-		return null;
+		return personService.getCityPopulation();
 	}
 
 	@PutMapping("{id}/address")

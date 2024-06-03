@@ -41,14 +41,14 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public Iterable<PersonDto> findPersonsByCity(String city) {
 		return personRepository.findByAddressCityIgnoreCase(city).map(p -> modelMapper.map(p, PersonDto.class)).toList();
 	
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public Iterable<PersonDto> findPersonsByAges(Integer minAge, Integer maxAge) {
 		LocalDate from = LocalDate.now().minusYears(maxAge);
 		LocalDate to = LocalDate.now().minusYears(minAge);
@@ -56,40 +56,41 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
+	@Transactional
 	public PersonDto updateName(Integer id, String name) {
 		Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 		person.setName(name);
-		personRepository.save(person);
+		//personRepository.save(person);
 		return modelMapper.map(person, PersonDto.class);
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public Iterable<PersonDto> findPersonsByName(String name) {
 		return personRepository.findByNameIgnoreCase(name).map(p -> modelMapper.map(p, PersonDto.class)).toList();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public Iterable<CityPopulationDto> getCityPopulation() {
-		// TODO Auto-generated method stub
-		return null;
+		return personRepository.getCityPopulation();
 	}
 
 	@Override
+	@Transactional
 	public PersonDto updateAddrress(Integer id, AddresDto addresDto) {
 		Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 		Address address = modelMapper.map(addresDto, Address.class);
 		person.setAddress(address);
-		personRepository.save(person);
+		//personRepository.save(person);
 		return modelMapper.map(person, PersonDto.class);
 	}
 
 	@Override
+	@Transactional
 	public PersonDto deletePersonById(Integer id) {
 		Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
-		personRepository.delete(person);
-		personRepository.save(person);
+		personRepository.delete(person);		
 		return modelMapper.map(person, PersonDto.class);
 	}
 
