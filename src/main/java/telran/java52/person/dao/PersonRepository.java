@@ -9,7 +9,7 @@ import telran.java52.person.model.Person;
 
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-	//Stream<Person> findByCityIgnoreCase(String city);
+	Stream<Person> findByAddressCityIgnoreCase(String city);
 
 	Stream<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
 

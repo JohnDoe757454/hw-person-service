@@ -43,8 +43,8 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	@Transactional
 	public Iterable<PersonDto> findPersonsByCity(String city) {
-		//return personRepository.findByCityIgnoreCase(city).map(p -> modelMapper.map(p, PersonDto.class)).toList();
-	return null;
+		return personRepository.findByAddressCityIgnoreCase(city).map(p -> modelMapper.map(p, PersonDto.class)).toList();
+	
 	}
 
 	@Override
